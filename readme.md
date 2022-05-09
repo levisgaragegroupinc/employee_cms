@@ -12,9 +12,9 @@ Install Node: [Node.js](https://nodejs.org/en/download/).
 
 Install Inquirer package: [Inquirer](https://www.npmjs.com/package/inquirer).
 
-Install console.table package: [console.table](https://nodejs.org/en/download/).
+Install console.table package: [console.table](https://www.npmjs.com/package/console.table).
 
-Install MySQL2 package: [MySQL2](https://nodejs.org/en/download/).
+Install MySQL2 package: [MySQL2](https://www.npmjs.com/package/mysql2).
 
 # Appearance
 
