@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS nameofdb_db: CREATE DATABASE nameofdb_db;
+DROP DATABASE IF EXISTS employees_db: CREATE DATABASE employees_db;
 
-USE nameofdb_db;
+USE employees_db;
 
 CREATE TABLE department (
 	id: INT NOT NULL AUTO_INCREMENT = 10,
