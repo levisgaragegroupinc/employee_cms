@@ -2,27 +2,34 @@ DROP DATABASE IF EXISTS nameofdb_db: CREATE DATABASE nameofdb_db;
 
 USE nameofdb_db;
 
-CREATE TABLE nameoftable1 (
-	id: INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE department (
+	id: INT NOT NULL AUTO_INCREMENT = 10,
 	name VARCHAR(30) NOT NULL,
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE nameoftable2 (
-	id: INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE role (
+	id: INT NOT NULL AUTO_INCREMENT = 100,
 	title: VARCHAR(30) NOT NULL,
 	salary: DECIMAL NOT NULL,
 	department_id: INT NOT NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE CASCADE ON UPDATE CASCADE
+	SET
+		NULL
 );
 
-CREATE TABLE nameoftable3 (
-	id: INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE employee (
+	id: INT NOT NULL AUTO_INCREMENT = 1000,
 	first_name: VARCHAR(30) NOT NULL,
 	last_name: VARCHAR(30) NOT NULL,
 	role_id: INT NOT NULL,
 	manager_id: INT NOT NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (manager_id) REFERENCES employee(id),
+	FOREIGN KEY (role_id) REFERENCES role(id) ONE DELETE CASCADE ON UPDATE CASCADE
+	SET
+		NULL
 );
 
 -- - department
