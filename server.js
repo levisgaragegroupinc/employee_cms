@@ -37,25 +37,25 @@ const newAction = () => {
   whatAction().then(function (action) {
     switch (action) {
       case "View all departments":
-        callnewFunction();
+        viewAllDepartmentsQuery();
         break;
       case "View all roles":
-        callnewFunction();
+        viewAllRolesQuery();
         break;
       case "View all employees":
-        callnewFunction();
+        viewAllEmployessQuery();
         break;
       case "Add department":
-        callnewFunction();
+        addDepartmentPrompt();
         break;
       case "Add role":
-        callnewFunction();
+        addRolePrompt();
         break;
       case "Add employee":
-        callnewFunction();
+        addEmployeePrompt();
         break;
       case "Update an employee role":
-        callnewFunction();
+        updateEmployeeRolePrompt();
         break;
       default:
         console.log("sorry, there was an error, no valid choice selected.");
