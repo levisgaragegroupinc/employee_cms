@@ -1,4 +1,15 @@
 const express = require("express");
+const path = require("path");
+const {
+  viewAllDepartments,
+  viewAllRoles,
+  viewAllEmployees,
+  addDepartment,
+  addRole,
+  addEmployee,
+  updateEmployeeRole,
+} = require("./helpers/dbUtils");
+
 const mysql = require("mysql");
 const consoleTable = require("console.table");
 
@@ -17,6 +28,14 @@ const db = mysql.createConnection(
   },
   console.log(`Connected to the employees_db database.`)
 );
+
+// PROMPTS HERE
+
+// determine what the user choose
+
+// what would you like to do
+
+// QUERIES HERE
 
 // Example calls
 app.get("/db", (req, res) => {

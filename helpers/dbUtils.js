@@ -2,11 +2,11 @@ const express = require("express");
 const mysql = require("mysql");
 const consoleTable = require("console.table");
 
-const PORT = process.env.PORT || 3001;
-const app = express();
+// const PORT = process.env.PORT || 3001;
+// const app = express();
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
 
 const db = mysql.createConnection(
   {
@@ -36,3 +36,27 @@ const db = mysql.createConnection(
 // Delete department (BONUS)
 // Delete role (BONUS)
 // Delete employee (BONUS)
+
+const viewAllDepartments = () => {};
+
+const viewAllRoles = () => {};
+
+const viewAllEmployees = () => {};
+
+const addDepartment = () => {};
+
+const addRole = () => {};
+
+const addEmployee = () => {};
+
+const updateEmployeeRole = () => {};
+
+module.exports = {
+  viewAllDepartments,
+  viewAllRoles,
+  viewAllEmployees,
+  addDepartment,
+  addRole,
+  addEmployee,
+  updateEmployeeRole,
+};
