@@ -31,9 +31,64 @@ const db = mysql.createConnection(
 
 // PROMPTS HERE
 
-// determine what the user choose
+// New action
+// Call choices prompt and determine what the user choose to do
+const newAction = () => {
+  whatAction().then(function (action) {
+    switch (action) {
+      case "View all departments":
+        callnewFunction();
+        break;
+      case "View all roles":
+        callnewFunction();
+        break;
+      case "View all employees":
+        callnewFunction();
+        break;
+      case "Add department":
+        callnewFunction();
+        break;
+      case "Add role":
+        callnewFunction();
+        break;
+      case "Add employee":
+        callnewFunction();
+        break;
+      case "Update an employee role":
+        callnewFunction();
+        break;
+      default:
+        console.log("sorry, there was an error, no valid choice selected.");
+    }
+  });
+};
 
-// what would you like to do
+// Prompt, what would you like to do
+// View all departments
+// View all roles
+// View all employees
+// Add department
+// Add role
+// Add employee
+// Update an employee role
+const whatAction = () => {
+  return inquirer.prompt([
+    {
+      type: "list",
+      message: "What action would you like to take?",
+      name: "action",
+      choices: [
+        "View all departments",
+        "View all roles",
+        "View all employees",
+        "Add department",
+        "Add role",
+        "Add employee",
+        "Update an employee role",
+      ],
+    },
+  ]);
+};
 
 // QUERIES HERE
 
