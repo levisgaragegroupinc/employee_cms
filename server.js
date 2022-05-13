@@ -70,13 +70,13 @@ const newAction = () => {
 
 // Prompt, what would you like to do: PROMPT READY!
 // What did the user choose to do: FUNCTION READY!
-// View all departments: PROMPT READY!
-// View all roles
-// View all employees
+// View all departments: FUNCTION READY!
+// View all roles: FUNCTION READY!
+// View all employees: FUNCTION READY!
 // Add department: PROMPT READY!
 // Add role: PROMPT READY!
 // Add employee: PROMPT READY!
-// Update an employee role
+// Update an employee role: PROMPT READY!
 
 // WHAT DO YOU WANT TO DO PROMPT: READY!
 const whatAction = () => {
@@ -194,14 +194,26 @@ const updateEmployeeRolePrompt = () => {
 // QUERIES HERE
 // ************
 
-// VIEW ALL DEPARTMENTS: IN-PROGRESS!
-const viewAllDepartmentsQuery = () => {};
+// VIEW ALL DEPARTMENTS: READY!
+const viewAllDepartmentsQuery = () => {
+  const allDeptsList = viewAllDepartments();
+  console.table(allDeptsList);
+  whatAction();
+};
 
-// VIEW ALL ROLES: IN-PROGRESS!
-const viewAllRolesQuery = () => {};
+// VIEW ALL ROLES: READY!
+const viewAllRolesQuery = () => {
+  const allRolesList = viewAllRoles();
+  console.table(allRolesList);
+  whatAction();
+};
 
-// VIEW ALL EMPLOYEES: IN-PROGRESS!
-const viewAllEmployeesQuery = () => {};
+// VIEW ALL EMPLOYEES: READY!
+const viewAllEmployeesQuery = () => {
+  const allEmployeesList = viewAllEmployees();
+  console.table(allEmployeesList);
+  whatAction();
+};
 
 // Example calls
 app.get("/db", (req, res) => {
