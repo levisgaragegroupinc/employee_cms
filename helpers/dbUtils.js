@@ -110,8 +110,20 @@ const addEmployee = (data) => {
 // UPDATE SOMETHING HELPER FUNCTIONS
 // ************
 
-// UTIL HELPER FUNCTION: IN-PROGRESS!
-const updateEmployeeRole = () => {};
+// UTIL UPDATE EMPLOYEE HELPER FUNCTION: IN-PROGRESS!
+const updateEmployeeRole = (data) => {
+  console.log(data);
+  let roleString = data.role;
+  let employee_id = roleString.slice(0, 2);
+  db.query(
+    "UPDATE employee SET role_id = ? WHERE employee.id = ?",
+    data.role,
+    employee_id,
+    function (err, res) {
+      console.log(res);
+    }
+  );
+};
 
 // ************
 // PROVIDE LIST FOR PROMPT CHOICES HELPER FUNCTIONS
