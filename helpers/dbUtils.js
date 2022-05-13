@@ -37,24 +37,93 @@ const db = mysql.createConnection(
 // Delete role (BONUS)
 // Delete employee (BONUS)
 
+// ************
+// VIEW ALL OF SOMETHING HELPER FUNCTIONS
+// ************
+
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const viewAllDepartments = () => {};
 
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const viewAllRoles = () => {};
 
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const viewAllEmployees = () => {};
 
-const addDepartment = () => {};
+// ************
+// ADD SOMETHING HELPER FUNCTIONS
+// ************
 
-const addRole = () => {};
+// UTIL ADD DEPARTMENT HELPER FUNCTION: READY!
+const addDepartment = (data) => {
+  console.log(data);
+  db.query(
+    "INSERT INTO department (name) VALUES (?)",
+    data.name,
+    function (err, res) {
+      console.log(res);
+    }
+  );
+};
 
-const addEmployee = () => {};
+// ALTERNATIVE WAY?
+// const addDepartment = (data) => {
+//   db.query("INSERT INTO department (name) VALUES (?)", data.name, (err, res) => {
+//     if (err) {
+//       res.status(400).json({ error: err });
+//       return;
+//     }
+//     res.json({
+//       message: "Success",
+//       data: data.name,
+//     });
+//   });
+// };
 
+// UTIL ADD ROLE HELPER FUNCTION: READY!
+const addRole = (data) => {
+  console.log(data);
+  db.query(
+    "INSERT INTO role (name) VALUES (?)",
+    data.role,
+    function (err, res) {
+      console.log(res);
+    }
+  );
+};
+
+// UTIL ADD EMPLOYEE HELPER FUNCTION: READY!
+const addEmployee = (data) => {
+  console.log(data);
+  db.query(
+    "INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, (SELECT id from role WHERE title = ?))",
+    data.first_name,
+    data.last_name,
+    data.role_id,
+    function (err, res) {
+      console.log(res);
+    }
+  );
+};
+
+// ************
+// UPDATE SOMETHING HELPER FUNCTIONS
+// ************
+
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const updateEmployeeRole = () => {};
 
+// ************
+// PROVIDE LIST FOR PROMPT CHOICES HELPER FUNCTIONS
+// ************
+
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const listAllDepartments = () => {};
 
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const listAllRoles = () => {};
 
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const listAllEmployees = () => {};
 
 module.exports = {

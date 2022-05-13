@@ -99,17 +99,24 @@ const whatAction = () => {
 };
 
 // ADD DEPARTMENT PROMPT: READY!
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const addDepartmentPrompt = () => {
-  return inquirer.prompt([
-    {
-      type: "value",
-      message: "Enter the department name:",
-      name: "name",
-    },
-  ]);
+  return inquirer
+    .prompt([
+      {
+        type: "value",
+        message: "Enter the department name:",
+        name: "name",
+      },
+    ])
+    .then(function (data) {
+      addDepartment(data);
+      whatAction();
+    });
 };
 
 // ADD ROLE PROMPT: READY!
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const addRolePrompt = () => {
   const deptList = listAllDepartments();
   return inquirer
@@ -138,6 +145,7 @@ const addRolePrompt = () => {
 };
 
 // ADD ROLE EMPLOYEE: READY!
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const addEmployeePrompt = () => {
   const roleList = listAllRoles();
   return inquirer
@@ -166,6 +174,7 @@ const addEmployeePrompt = () => {
 };
 
 // UPDATE EMPLOYEE ROLE: READY!
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const updateEmployeeRolePrompt = () => {
   const employeeList = listAllEmployees();
   const roleList = listAllRoles();
@@ -195,6 +204,7 @@ const updateEmployeeRolePrompt = () => {
 // ************
 
 // VIEW ALL DEPARTMENTS: READY!
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const viewAllDepartmentsQuery = () => {
   const allDeptsList = viewAllDepartments();
   console.table(allDeptsList);
@@ -202,6 +212,7 @@ const viewAllDepartmentsQuery = () => {
 };
 
 // VIEW ALL ROLES: READY!
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const viewAllRolesQuery = () => {
   const allRolesList = viewAllRoles();
   console.table(allRolesList);
@@ -209,6 +220,7 @@ const viewAllRolesQuery = () => {
 };
 
 // VIEW ALL EMPLOYEES: READY!
+// UTIL HELPER FUNCTION: IN-PROGRESS!
 const viewAllEmployeesQuery = () => {
   const allEmployeesList = viewAllEmployees();
   console.table(allEmployeesList);
