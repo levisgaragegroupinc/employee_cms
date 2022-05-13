@@ -68,14 +68,14 @@ const newAction = () => {
   });
 };
 
-// Prompt, what would you like to do: PROMPT READY
-// What did the user choose to do: FUNCTION READY
-// View all departments: PROMPT READY
+// Prompt, what would you like to do: PROMPT READY!
+// What did the user choose to do: FUNCTION READY!
+// View all departments: PROMPT READY!
 // View all roles
 // View all employees
-// Add department
-// Add role
-// Add employee
+// Add department: PROMPT READY!
+// Add role: PROMPT READY!
+// Add employee: PROMPT READY!
 // Update an employee role
 
 // WHAT DO YOU WANT TO DO PROMPT: READY!
@@ -133,35 +133,61 @@ const addRolePrompt = () => {
     ])
     .then(function (data) {
       addRole(data);
+      whatAction();
     });
 };
 
-// ADD ROLE EMPLOYEE: IN-PROGRESS!
+// ADD ROLE EMPLOYEE: READY!
 const addEmployeePrompt = () => {
   const roleList = listAllRoles();
-  return inquirer.prompt([
-    {
-      type: "value",
-      message: "Employee first name:",
-      name: "firstname",
-    },
-    {
-      type: "value",
-      message: "Employee last name:",
-      name: "lastname",
-    },
-    {
-      type: "list",
-      message: "Select employee role:",
-      name: "role",
-      choices: roleList,
-    },
-  ]);
+  return inquirer
+    .prompt([
+      {
+        type: "value",
+        message: "Employee first name:",
+        name: "firstname",
+      },
+      {
+        type: "value",
+        message: "Employee last name:",
+        name: "lastname",
+      },
+      {
+        type: "list",
+        message: "Select employee role:",
+        name: "role",
+        choices: roleList,
+      },
+    ])
+    .then(function (data) {
+      addEmployee(data);
+      whatAction();
+    });
 };
 
-// UPDATE EMPLOYEE: IN-PROGRESS!
+// UPDATE EMPLOYEE ROLE: READY!
 const updateEmployeeRolePrompt = () => {
-  return inquirer.prompt([{}]);
+  const employeeList = listAllEmployees();
+  const roleList = listAllRoles();
+  return inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "Select employee:",
+        name: "employee_id_name",
+        choices: employeeList,
+      },
+      {
+        type: "list",
+        message: "Select the employee role:",
+        name: "role",
+        choices: roleList,
+      },
+    ])
+    .then(function (data) {
+      updateEmployee(data);
+      whatAction();
+    });
 };
 
 // ************
