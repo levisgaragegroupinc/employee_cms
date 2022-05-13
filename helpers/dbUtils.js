@@ -51,6 +51,12 @@ const addEmployee = () => {};
 
 const updateEmployeeRole = () => {};
 
+const listAllDepartments = () => {};
+
+const listAllRoles = () => {};
+
+const listAllEmployees = () => {};
+
 module.exports = {
   viewAllDepartments,
   viewAllRoles,
@@ -59,4 +65,7 @@ module.exports = {
   addRole,
   addEmployee,
   updateEmployeeRole,
+  listAllDepartments,
+  listAllRoles,
+  listAllEmployees,
 };

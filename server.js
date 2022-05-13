@@ -8,10 +8,14 @@ const {
   addRole,
   addEmployee,
   updateEmployeeRole,
+  listAllDepartments,
+  listAllRoles,
+  listAllEmployees,
 } = require("./helpers/dbUtils");
 
 const mysql = require("mysql");
 const consoleTable = require("console.table");
+const inquirer = require("inquirer");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -29,10 +33,11 @@ const db = mysql.createConnection(
   console.log(`Connected to the employees_db database.`)
 );
 
+// ************
 // PROMPTS HERE
+// ************
 
-// New action
-// Call choices prompt and determine what the user choose to do
+// WHAT DID THE USE CHOOSE TO DO? READY!
 const newAction = () => {
   whatAction().then(function (action) {
     switch (action) {
@@ -43,7 +48,7 @@ const newAction = () => {
         viewAllRolesQuery();
         break;
       case "View all employees":
-        viewAllEmployessQuery();
+        viewAllEmployeesQuery();
         break;
       case "Add department":
         addDepartmentPrompt();
@@ -63,14 +68,17 @@ const newAction = () => {
   });
 };
 
-// Prompt, what would you like to do
-// View all departments
+// Prompt, what would you like to do: PROMPT READY
+// What did the user choose to do: FUNCTION READY
+// View all departments: PROMPT READY
 // View all roles
 // View all employees
 // Add department
 // Add role
 // Add employee
 // Update an employee role
+
+// WHAT DO YOU WANT TO DO PROMPT: READY!
 const whatAction = () => {
   return inquirer.prompt([
     {
@@ -90,7 +98,84 @@ const whatAction = () => {
   ]);
 };
 
+// ADD DEPARTMENT PROMPT: READY!
+const addDepartmentPrompt = () => {
+  return inquirer.prompt([
+    {
+      type: "value",
+      message: "Enter the department name:",
+      name: "name",
+    },
+  ]);
+};
+
+// ADD ROLE PROMPT: READY!
+const addRolePrompt = () => {
+  const deptList = listAllDepartments();
+  return inquirer
+    .prompt([
+      {
+        type: "value",
+        message: "Enter the role title name:",
+        name: "role",
+      },
+      {
+        type: "value",
+        message: "Enter the salary for this role:",
+        name: "salary",
+      },
+      {
+        type: "list",
+        message: "Select the department:",
+        name: "department",
+        choices: deptList,
+      },
+    ])
+    .then(function (data) {
+      addRole(data);
+    });
+};
+
+// ADD ROLE EMPLOYEE: IN-PROGRESS!
+const addEmployeePrompt = () => {
+  const roleList = listAllRoles();
+  return inquirer.prompt([
+    {
+      type: "value",
+      message: "Employee first name:",
+      name: "firstname",
+    },
+    {
+      type: "value",
+      message: "Employee last name:",
+      name: "lastname",
+    },
+    {
+      type: "list",
+      message: "Select employee role:",
+      name: "role",
+      choices: roleList,
+    },
+  ]);
+};
+
+// UPDATE EMPLOYEE: IN-PROGRESS!
+const updateEmployeeRolePrompt = () => {
+  return inquirer.prompt([{}]);
+};
+
+// ************
 // QUERIES HERE
+// ************
+
+// VIEW ALL DEPARTMENTS: IN-PROGRESS!
+const viewAllDepartmentsQuery = () => {};
+
+// VIEW ALL ROLES: IN-PROGRESS!
+const viewAllRolesQuery = () => {};
+
+// VIEW ALL EMPLOYEES: IN-PROGRESS!
+const viewAllEmployeesQuery = () => {};
 
 // Example calls
 app.get("/db", (req, res) => {
@@ -101,6 +186,10 @@ app.get("/db", (req, res) => {
     console.log(result);
   });
 });
+
+// ************
+// EXAMPLES
+// ************
 
 // SUM the, plus multiple stats on
 db.query(
