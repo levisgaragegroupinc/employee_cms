@@ -37,7 +37,7 @@ const db = mysql.createConnection(
 // PROMPTS HERE
 // ************
 
-// WHAT DID THE USE CHOOSE TO DO? READY!
+// WHAT DID THE USER CHOOSE TO DO? READY!
 const newAction = () => {
   whatAction().then(function (action) {
     switch (action) {
@@ -216,6 +216,9 @@ const viewAllEmployeesQuery = () => {
   console.table(allEmployeesList);
   whatAction();
 };
+
+// START PROMPT
+whatAction();
 
 // INCLUDE THE FOLLOWING OPERATIONS
 // Prompt, what would you like to do: PROMPT READY!
