@@ -18,37 +18,39 @@ const db = mysql.createConnection(
   console.log(`Connected to the employees_db database.`)
 );
 
-// INCLUDE THE FOLLOWING OPERATIONS (plus BONUS)
-// View all departments
-// View all roles
-// View all employees
-// Veiw employees by manager (BONUS)
-// View employees by department (BONUS)
-// View sum of salaries by department (BONUS)
-
-// Add department
-// Add role
-// Add employee
-
-// Update an employee role
-// Update employee managers (BONUS)
-
-// Delete department (BONUS)
-// Delete role (BONUS)
-// Delete employee (BONUS)
-
 // ************
 // VIEW ALL OF SOMETHING HELPER FUNCTIONS
 // ************
 
-// UTIL HELPER FUNCTION: IN-PROGRESS!
-const viewAllDepartments = () => {};
+// UTIL HELPER FUNCTION: READY!
+const viewAllDepartments = () => {
+  db.query("SELECT department.name FROM department", function (err, res) {
+    if (err) throw "viewAllDepartments helper function error";
+    console.table(res);
+  });
+};
 
-// UTIL HELPER FUNCTION: IN-PROGRESS!
-const viewAllRoles = () => {};
+// UTIL HELPER FUNCTION: READY!
+const viewAllRoles = () => {
+  db.query(
+    "SELECT role.title FROM role LEFT JOIN department ON role.department_id = department.id",
+    function (err, res) {
+      if (err) throw "viewAllRoles helper function error";
+      console.table(res);
+    }
+  );
+};
 
-// UTIL HELPER FUNCTION: IN-PROGRESS!
-const viewAllEmployees = () => {};
+// UTIL HELPER FUNCTION: READY!
+const viewAllEmployees = () => {
+  db.query(
+    "SELECT employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id FROM employee GROUP BY department_id",
+    function (err, res) {
+      if (err) throw "viewAllEmployees helper function error";
+      console.table(res);
+    }
+  );
+};
 
 // ************
 // ADD SOMETHING HELPER FUNCTIONS
@@ -61,6 +63,7 @@ const addDepartment = (data) => {
     "INSERT INTO department (name) VALUES (?)",
     data.name,
     function (err, res) {
+      if (err) throw "addDepartment helper function error";
       console.log(res);
     }
   );
@@ -87,6 +90,7 @@ const addRole = (data) => {
     "INSERT INTO role (name) VALUES (?)",
     data.role,
     function (err, res) {
+      if (err) throw "addRole helper function error";
       console.log(res);
     }
   );
@@ -101,6 +105,7 @@ const addEmployee = (data) => {
     data.last_name,
     data.role_id,
     function (err, res) {
+      if (err) throw "addEmployee helper function error";
       console.log(res);
     }
   );
@@ -120,6 +125,7 @@ const updateEmployeeRole = (data) => {
     data.role,
     employee_id,
     function (err, res) {
+      if (err) throw "updateEmployeeRole helper function error";
       console.log(res);
     }
   );
@@ -129,14 +135,42 @@ const updateEmployeeRole = (data) => {
 // PROVIDE LIST FOR PROMPT CHOICES HELPER FUNCTIONS
 // ************
 
-// UTIL HELPER FUNCTION: IN-PROGRESS!
-const listAllDepartments = () => {};
+// UTIL LIST ALL DEPARTMENTS HELPER FUNCTION: READY!
+const listAllDepartments = () => {
+  db.query("SELECT department.name FROM department", function (err, res) {
+    if (err) throw "listAllDepartments helper function error";
+    let deptList = [];
+    res.forEach((item) => {
+      deptList.push(item.name);
+    });
+  });
+};
 
-// UTIL HELPER FUNCTION: IN-PROGRESS!
-const listAllRoles = () => {};
+// UTIL LIST ALL ROLES HELPER FUNCTION: READY!
+const listAllRoles = () => {
+  db.query("SELECT role.title FROM role", function (err, res) {
+    if (err) throw "listAllRoles helper function error";
+    let roleList = [];
+    res.forEach((item) => {
+      roleList.push(item.title);
+    });
+  });
+};
 
-// UTIL HELPER FUNCTION: IN-PROGRESS!
-const listAllEmployees = () => {};
+// UTIL LIST ALL EMPLOYEES HELPER FUNCTION: READY!
+const listAllEmployees = () => {
+  db.query(
+    "SELECT employee.id, employee.first_name, employee.last_name FROM employee",
+    function (err, res) {
+      if (err) throw "listAllEmployees helper function error";
+      let employeeList = [];
+      res.forEach((item) => {
+        let employeeIdentity = `${item.id} ${item.first_name} ${item.last_name}`;
+        employeeList.push(employeeIdentity);
+      });
+    }
+  );
+};
 
 module.exports = {
   viewAllDepartments,
@@ -150,3 +184,22 @@ module.exports = {
   listAllRoles,
   listAllEmployees,
 };
+
+// INCLUDE THE FOLLOWING OPERATIONS (plus BONUS)
+// View all departments
+// View all roles
+// View all employees
+// Veiw employees by manager (BONUS)
+// View employees by department (BONUS)
+// View sum of salaries by department (BONUS)
+
+// Add department
+// Add role
+// Add employee
+
+// Update an employee role
+// Update employee managers (BONUS)
+
+// Delete department (BONUS)
+// Delete role (BONUS)
+// Delete employee (BONUS)

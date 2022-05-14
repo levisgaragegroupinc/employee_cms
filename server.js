@@ -68,16 +68,6 @@ const newAction = () => {
   });
 };
 
-// Prompt, what would you like to do: PROMPT READY!
-// What did the user choose to do: FUNCTION READY!
-// View all departments: FUNCTION READY!
-// View all roles: FUNCTION READY!
-// View all employees: FUNCTION READY!
-// Add department: PROMPT READY!
-// Add role: PROMPT READY!
-// Add employee: PROMPT READY!
-// Update an employee role: PROMPT READY!
-
 // WHAT DO YOU WANT TO DO PROMPT: READY!
 const whatAction = () => {
   return inquirer.prompt([
@@ -99,7 +89,7 @@ const whatAction = () => {
 };
 
 // ADD DEPARTMENT PROMPT: READY!
-// UTIL HELPER FUNCTION: IN-PROGRESS!
+// UTIL HELPER FUNCTION: READY!
 const addDepartmentPrompt = () => {
   return inquirer
     .prompt([
@@ -116,7 +106,7 @@ const addDepartmentPrompt = () => {
 };
 
 // ADD ROLE PROMPT: READY!
-// UTIL HELPER FUNCTION: IN-PROGRESS!
+// UTIL HELPER FUNCTION: READY!
 const addRolePrompt = () => {
   const deptList = listAllDepartments();
   return inquirer
@@ -145,7 +135,7 @@ const addRolePrompt = () => {
 };
 
 // ADD ROLE EMPLOYEE: READY!
-// UTIL HELPER FUNCTION: IN-PROGRESS!
+// UTIL HELPER FUNCTION: READY!
 const addEmployeePrompt = () => {
   const roleList = listAllRoles();
   return inquirer
@@ -174,7 +164,7 @@ const addEmployeePrompt = () => {
 };
 
 // UPDATE EMPLOYEE ROLE: READY!
-// UTIL HELPER FUNCTION: IN-PROGRESS!
+// UTIL HELPER FUNCTION: READY!
 const updateEmployeeRolePrompt = () => {
   const employeeList = listAllEmployees();
   const roleList = listAllRoles();
@@ -204,7 +194,7 @@ const updateEmployeeRolePrompt = () => {
 // ************
 
 // VIEW ALL DEPARTMENTS: READY!
-// UTIL HELPER FUNCTION: IN-PROGRESS!
+// UTIL HELPER FUNCTION: READY!
 const viewAllDepartmentsQuery = () => {
   const allDeptsList = viewAllDepartments();
   console.table(allDeptsList);
@@ -212,7 +202,7 @@ const viewAllDepartmentsQuery = () => {
 };
 
 // VIEW ALL ROLES: READY!
-// UTIL HELPER FUNCTION: IN-PROGRESS!
+// UTIL HELPER FUNCTION: READY!
 const viewAllRolesQuery = () => {
   const allRolesList = viewAllRoles();
   console.table(allRolesList);
@@ -220,61 +210,81 @@ const viewAllRolesQuery = () => {
 };
 
 // VIEW ALL EMPLOYEES: READY!
-// UTIL HELPER FUNCTION: IN-PROGRESS!
+// UTIL HELPER FUNCTION: READY!
 const viewAllEmployeesQuery = () => {
   const allEmployeesList = viewAllEmployees();
   console.table(allEmployeesList);
   whatAction();
 };
 
-// Example calls
-app.get("/db", (req, res) => {
-  db.query(`SELECT FROM movies_names WHERE id = ?`, 1, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log(result);
-  });
-});
+// INCLUDE THE FOLLOWING OPERATIONS
+// Prompt, what would you like to do: PROMPT READY!
+// What did the user choose to do: FUNCTION READY!
+// View all departments: FUNCTION READY!
+// View all roles: FUNCTION READY!
+// View all employees: FUNCTION READY!
+// Add department: PROMPT READY!
+// Add role: PROMPT READY!
+// Add employee: PROMPT READY!
+// Update an employee role: PROMPT READY!
+
+// (BONUS OPERATIONS)
+// Veiw employees by manager (BONUS)
+// View employees by department (BONUS)
+// View sum of salaries by department (BONUS)
+// Update employee managers (BONUS)
+// Delete department (BONUS)
+// Delete role (BONUS)
+// Delete employee (BONUS)
 
 // ************
 // EXAMPLES
 // ************
 
+// Example calls
+// app.get("/db", (req, res) => {
+//   db.query(`SELECT FROM movies_names WHERE id = ?`, 1, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     console.log(result);
+//   });
+// });
+
 // SUM the, plus multiple stats on
-db.query(
-  "SELECT SUM(quantity) AS total_in_section, MAX(quantity) AS max_quantity, MIN(quantity) AS min_quantity, AVG(quantity) AS avg_quantity FROM favorite_books GROUP BY section",
-  function (err, results) {
-    console.log(results);
-  }
-);
+// db.query(
+//   "SELECT SUM(quantity) AS total_in_section, MAX(quantity) AS max_quantity, MIN(quantity) AS min_quantity, AVG(quantity) AS avg_quantity FROM favorite_books GROUP BY section",
+//   function (err, results) {
+//     console.log(results);
+//   }
+// );
 
-// Select all and show how many are in stock true / false.
-db.query(
-  "SELECT COUNT(id) AS total_count FROM favorite_books GROUP BY in_stock",
-  function (err, results) {
-    console.log(results);
-  }
-);
+// // Select all and show how many are in stock true / false.
+// db.query(
+//   "SELECT COUNT(id) AS total_count FROM favorite_books GROUP BY in_stock",
+//   function (err, results) {
+//     console.log(results);
+//   }
+// );
 
-// Query database
-db.query("SELECT * FROM course_names", function (err, results) {
-  console.log(results);
-});
+// // Query database
+// db.query("SELECT * FROM course_names", function (err, results) {
+//   console.log(results);
+// });
 
-// Default response for any other request (Not Found)
-app.use((req, res) => {
-  res.status(404).end();
-});
+// // Default response for any other request (Not Found)
+// app.use((req, res) => {
+//   res.status(404).end();
+// });
 
-// Hardcoded query: DELETE FROM course_names WHERE id = 3;
-db.query(`DELETE FROM course_names WHERE id = ?`, 3, (err, result) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log(result);
-});
+// // Hardcoded query: DELETE FROM course_names WHERE id = 3;
+// db.query(`DELETE FROM course_names WHERE id = ?`, 3, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   }
+//   console.log(result);
+// });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
