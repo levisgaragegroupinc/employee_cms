@@ -13,7 +13,7 @@ const {
   listAllEmployees,
 } = require("./helpers/dbUtils");
 
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const consoleTable = require("console.table");
 const inquirer = require("inquirer");
 
