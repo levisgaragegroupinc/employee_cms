@@ -1,5 +1,5 @@
 // const express = require("express");
-const path = require("path");
+// const path = require("path");
 const {
   viewAllDepartments,
   viewAllRoles,
@@ -13,25 +13,25 @@ const {
   listAllEmployees,
 } = require("./helpers/dbUtils");
 
-const mysql = require("mysql2");
-const consoleTable = require("console.table");
+// const mysql = require("mysql2");
+// const consoleTable = require("console.table");
 const inquirer = require("inquirer");
 
-const PORT = process.env.PORT || 3001;
+// const PORT = process.env.PORT || 3001;
 // const app = express();
 
 // app.use(express.urlencoded({ extended: false }));
 // app.use(express.json());
 
-const db = mysql.createConnection(
-  {
-    host: "localhost",
-    user: "root",
-    password: "XC04stareld57*",
-    database: "employees_db",
-  },
-  console.log(`Connected to the employees_db database.`)
-);
+// const db = mysql.createConnection(
+//   {
+//     host: "localhost",
+//     user: "root",
+//     password: "XC04stareld57*",
+//     database: "employees_db",
+//   },
+//   console.log(`Connected to the employees_db database from the server file.`)
+// );
 
 // ************
 // PROMPTS HERE
@@ -39,8 +39,8 @@ const db = mysql.createConnection(
 
 // WHAT DID THE USER CHOOSE TO DO? READY!
 const newAction = () => {
-  whatAction().then(function (action) {
-    switch (action.option) {
+  whatAction().then(function (user) {
+    switch (user.choice) {
       case "View all departments":
         viewAllDepartmentsQuery();
         break;
@@ -74,7 +74,7 @@ const whatAction = () => {
     {
       type: "list",
       message: "What action would you like to take?",
-      name: "option",
+      name: "choice",
       choices: [
         "View all departments",
         "View all roles",

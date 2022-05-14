@@ -1,4 +1,4 @@
-const express = require("express");
+// const express = require("express");
 const mysql = require("mysql2");
 const consoleTable = require("console.table");
 
@@ -15,7 +15,7 @@ const db = mysql.createConnection(
     password: "XC04stareld57*",
     database: "employees_db",
   },
-  console.log(`Connected to the employees_db database.`)
+  console.log(`Connected to the employees_db database from the dbUtils file.`)
 );
 
 // ************
