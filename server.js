@@ -1,19 +1,21 @@
 // const express = require("express");
 // const path = require("path");
-const {
-  viewAllDepartments,
-  viewAllRoles,
-  viewAllEmployees,
-  addDepartment,
-  addRole,
-  addEmployee,
-  updateEmployeeRole,
-  listAllDepartments,
-  listAllRoles,
-  listAllEmployees,
-} = require("./helpers/dbUtils");
+// const DB = require("./helpers/dbUtils");
 
-// const mysql = require("mysql2");
+// const {
+//   viewAllDepartments,
+//   viewAllRoles,
+//   viewAllEmployees,
+//   addDepartment,
+//   addRole,
+//   addEmployee,
+//   updateEmployeeRole,
+//   listAllDepartments,
+//   listAllRoles,
+//   listAllEmployees,
+// } = require("./helpers/dbUtils");
+
+const mysql = require("mysql2");
 // const consoleTable = require("console.table");
 const inquirer = require("inquirer");
 
@@ -23,202 +25,208 @@ const inquirer = require("inquirer");
 // app.use(express.urlencoded({ extended: false }));
 // app.use(express.json());
 
-// const db = mysql.createConnection(
-//   {
-//     host: "localhost",
-//     user: "root",
-//     password: "XC04stareld57*",
-//     database: "employees_db",
-//   },
-//   console.log(`Connected to the employees_db database from the server file.`)
-// );
+const db = mysql.createConnection(
+  {
+    host: "localhost",
+    user: "root",
+    password: "XC04stareld57*",
+    database: "employees_db",
+  }
+  // console.log(`Connected to the employees_db database from the server file.`)
+);
 
 // ************
 // PROMPTS HERE
 // ************
 
 // WHAT DID THE USER CHOOSE TO DO? READY!
-const newAction = () => {
-  whatAction().then(function (user) {
-    switch (user.choice) {
-      case "View all departments":
-        viewAllDepartmentsQuery();
-        break;
-      case "View all roles":
-        viewAllRolesQuery();
-        break;
-      case "View all employees":
-        viewAllEmployeesQuery();
-        break;
-      case "Add department":
-        addDepartmentPrompt();
-        break;
-      case "Add role":
-        addRolePrompt();
-        break;
-      case "Add employee":
-        addEmployeePrompt();
-        break;
-      case "Update an employee role":
-        updateEmployeeRolePrompt();
-        break;
-      default:
-        console.log("sorry, there was an error, no valid choice selected.");
-    }
-  });
-};
+// const newAction = () => {
+//   whatAction().then(function (user) {
+//     switch (user.choice) {
+//       case "View all departments":
+//         viewAllDepartmentsQuery();
+//         break;
+//       case "View all roles":
+//         viewAllRolesQuery();
+//         break;
+//       case "View all employees":
+//         viewAllEmployeesQuery();
+//         break;
+//       case "Add department":
+//         addDepartmentPrompt();
+//         break;
+//       case "Add role":
+//         addRolePrompt();
+//         break;
+//       case "Add employee":
+//         addEmployeePrompt();
+//         break;
+//       case "Update an employee role":
+//         updateEmployeeRolePrompt();
+//         break;
+//       default:
+//         console.log("sorry, there was an error, no valid choice selected.");
+//     }
+//   });
+// };
 
 // WHAT DO YOU WANT TO DO PROMPT: READY!
 const whatAction = () => {
-  return inquirer.prompt([
-    {
-      type: "list",
-      message: "What action would you like to take?",
-      name: "choice",
-      choices: [
-        "View all departments",
-        "View all roles",
-        "View all employees",
-        "Add department",
-        "Add role",
-        "Add employee",
-        "Update an employee role",
-      ],
-    },
-  ]);
+  // console.log(DB.viewAllDepartments());
+  return inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "What action would you like to take?",
+        name: "choice",
+        choices: [
+          "View all departments",
+          "View all roles",
+          "View all employees",
+          "Add department",
+          "Add role",
+          "Add employee",
+          "Update an employee role",
+        ],
+      },
+    ])
+    .then(function (res) {
+      console.log(res);
+    });
 };
 
 // ADD DEPARTMENT PROMPT: READY!
 // UTIL HELPER FUNCTION: READY!
-const addDepartmentPrompt = () => {
-  return inquirer
-    .prompt([
-      {
-        type: "value",
-        message: "Enter the department name:",
-        name: "name",
-      },
-    ])
-    .then(function (data) {
-      addDepartment(data);
-      // newAction();
-    });
-};
+// const addDepartmentPrompt = () => {
+//   return inquirer
+//     .prompt([
+//       {
+//         type: "value",
+//         message: "Enter the department name:",
+//         name: "name",
+//       },
+//     ])
+//     .then(function (data) {
+//       addDepartment(data);
+//       // newAction();
+//     });
+// };
 
-// ADD ROLE PROMPT: READY!
-// UTIL HELPER FUNCTION: READY!
-const addRolePrompt = () => {
-  const deptList = listAllDepartments();
-  return inquirer
-    .prompt([
-      {
-        type: "value",
-        message: "Enter the role title name:",
-        name: "role",
-      },
-      {
-        type: "value",
-        message: "Enter the salary for this role:",
-        name: "salary",
-      },
-      {
-        type: "list",
-        message: "Select the department:",
-        name: "department",
-        choices: deptList,
-      },
-    ])
-    .then(function (data) {
-      addRole(data);
-      // newAction();
-    });
-};
+// // ADD ROLE PROMPT: READY!
+// // UTIL HELPER FUNCTION: READY!
+// const addRolePrompt = () => {
+//   const deptList = listAllDepartments();
+//   return inquirer
+//     .prompt([
+//       {
+//         type: "value",
+//         message: "Enter the role title name:",
+//         name: "role",
+//       },
+//       {
+//         type: "value",
+//         message: "Enter the salary for this role:",
+//         name: "salary",
+//       },
+//       {
+//         type: "list",
+//         message: "Select the department:",
+//         name: "department",
+//         choices: deptList,
+//       },
+//     ])
+//     .then(function (data) {
+//       addRole(data);
+//       // newAction();
+//     });
+// };
 
-// ADD ROLE EMPLOYEE: READY!
-// UTIL HELPER FUNCTION: READY!
-const addEmployeePrompt = () => {
-  const roleList = listAllRoles();
-  return inquirer
-    .prompt([
-      {
-        type: "value",
-        message: "Employee first name:",
-        name: "firstname",
-      },
-      {
-        type: "value",
-        message: "Employee last name:",
-        name: "lastname",
-      },
-      {
-        type: "list",
-        message: "Select employee role:",
-        name: "role",
-        choices: roleList,
-      },
-    ])
-    .then(function (data) {
-      addEmployee(data);
-      // newAction();
-    });
-};
+// // ADD ROLE EMPLOYEE: READY!
+// // UTIL HELPER FUNCTION: READY!
+// const addEmployeePrompt = () => {
+//   const roleList = listAllRoles();
+//   return inquirer
+//     .prompt([
+//       {
+//         type: "value",
+//         message: "Employee first name:",
+//         name: "firstname",
+//       },
+//       {
+//         type: "value",
+//         message: "Employee last name:",
+//         name: "lastname",
+//       },
+//       {
+//         type: "list",
+//         message: "Select employee role:",
+//         name: "role",
+//         choices: roleList,
+//       },
+//     ])
+//     .then(function (data) {
+//       addEmployee(data);
+//       // newAction();
+//     });
+// };
 
-// UPDATE EMPLOYEE ROLE: READY!
-// UTIL HELPER FUNCTION: READY!
-const updateEmployeeRolePrompt = () => {
-  const employeeList = listAllEmployees();
-  const roleList = listAllRoles();
-  return inquirer
-    .prompt([
-      {
-        type: "list",
-        message: "Select employee:",
-        name: "employee_id_name",
-        choices: employeeList,
-      },
-      {
-        type: "list",
-        message: "Select the employee role:",
-        name: "role",
-        choices: roleList,
-      },
-    ])
-    .then(function (data) {
-      updateEmployee(data);
-      // newAction();
-    });
-};
+// // UPDATE EMPLOYEE ROLE: READY!
+// // UTIL HELPER FUNCTION: READY!
+// const updateEmployeeRolePrompt = () => {
+//   const employeeList = listAllEmployees();
+//   const roleList = listAllRoles();
+//   return inquirer
+//     .prompt([
+//       {
+//         type: "list",
+//         message: "Select employee:",
+//         name: "employee_id_name",
+//         choices: employeeList,
+//       },
+//       {
+//         type: "list",
+//         message: "Select the employee role:",
+//         name: "role",
+//         choices: roleList,
+//       },
+//     ])
+//     .then(function (data) {
+//       updateEmployee(data);
+//       // newAction();
+//     });
+// };
 
-// ************
-// QUERIES HERE
-// ************
+// // ************
+// // QUERIES HERE
+// // ************
 
-// VIEW ALL DEPARTMENTS: READY!
-// UTIL HELPER FUNCTION: READY!
-const viewAllDepartmentsQuery = () => {
-  const allDeptsList = viewAllDepartments();
-  console.table(allDeptsList);
-  // newAction();
-};
+// // VIEW ALL DEPARTMENTS: READY!
+// // UTIL HELPER FUNCTION: READY!
+// const viewAllDepartmentsQuery = () => {
+//   const allDeptsList = viewAllDepartments();
+//   console.table(allDeptsList);
+//   // newAction();
+// };
 
-// VIEW ALL ROLES: READY!
-// UTIL HELPER FUNCTION: READY!
-const viewAllRolesQuery = () => {
-  const allRolesList = viewAllRoles();
-  console.table(allRolesList);
-  // newAction();
-};
+// // VIEW ALL ROLES: READY!
+// // UTIL HELPER FUNCTION: READY!
+// const viewAllRolesQuery = () => {
+//   const allRolesList = viewAllRoles();
+//   console.table(allRolesList);
+//   // newAction();
+// };
 
-// VIEW ALL EMPLOYEES: READY!
-// UTIL HELPER FUNCTION: READY!
-const viewAllEmployeesQuery = () => {
-  const allEmployeesList = viewAllEmployees();
-  console.table(allEmployeesList);
-  // newAction();
-};
+// // VIEW ALL EMPLOYEES: READY!
+// // UTIL HELPER FUNCTION: READY!
+// const viewAllEmployeesQuery = () => {
+//   const allEmployeesList = viewAllEmployees();
+//   console.table(allEmployeesList);
+//   // newAction();
+// };
 
 // START PROMPT
-newAction();
+// newAction();
+whatAction();
 
 // INCLUDE THE FOLLOWING OPERATIONS
 // Prompt, what would you like to do: PROMPT READY!
