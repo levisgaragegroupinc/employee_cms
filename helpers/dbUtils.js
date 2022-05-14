@@ -3,15 +3,15 @@ const consoleTable = require("console.table");
 const { newAction } = require("../server");
 const res = require("express/lib/response");
 
-// const db = mysql.createConnection(
-//   {
-//     host: "localhost",
-//     user: "root",
-//     password: "XC04stareld57*",
-//     database: "employees_db",
-//   },
-//   console.log(`Connected to the employees_db database from the dbUtils file.`)
-// );
+const db = mysql.createConnection(
+  {
+    host: "localhost",
+    user: "root",
+    password: "XC04stareld57*",
+    database: "employees_db",
+  },
+  console.log(`Connected to the employees_db database from the dbUtils file.`)
+);
 
 // ************
 // VIEW ALL OF SOMETHING HELPER FUNCTIONS
@@ -127,6 +127,7 @@ const listAllDepartments = () => {
     let deptList = [];
     res.forEach((item) => {
       deptList.push(item.name);
+      return deptList;
     });
   });
 };

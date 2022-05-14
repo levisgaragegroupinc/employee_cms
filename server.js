@@ -2,18 +2,18 @@ const inquirer = require("inquirer");
 const mysql = require("mysql2");
 const consoleTable = require("console.table");
 
-// const {
-//   viewAllDepartments,
-//   viewAllRoles,
-//   viewAllEmployees,
-//   addDepartment,
-//   addRole,
-//   addEmployee,
-//   updateEmployeeRole,
-//   listAllDepartments,
-//   listAllRoles,
-//   listAllEmployees,
-// } = require("./helpers/dbUtils");
+const {
+  viewAllDepartments,
+  viewAllRoles,
+  viewAllEmployees,
+  addDepartment,
+  addRole,
+  addEmployee,
+  updateEmployeeRole,
+  listAllDepartments,
+  listAllRoles,
+  listAllEmployees,
+} = require("./helpers/dbUtils");
 
 const db = mysql.createConnection(
   {
@@ -110,39 +110,65 @@ const addDepartmentPrompt = () => {
           newAction();
         }
       );
-
-      // addDepartment(data);
-      // newAction();
     });
 };
 
 // ADD ROLE PROMPT: READY!
-// UTIL HELPER FUNCTION: READY!
 const addRolePrompt = () => {
-  const deptList = listAllDepartments();
-  return inquirer
-    .prompt([
-      {
-        type: "value",
-        message: "Enter the role title name:",
-        name: "role",
-      },
-      {
-        type: "value",
-        message: "Enter the salary for this role:",
-        name: "salary",
-      },
-      {
-        type: "list",
-        message: "Select the department:",
-        name: "department",
-        choices: deptList,
-      },
-    ])
-    .then(function (data) {
-      addRole(data);
-      // newAction();
-    });
+  db.query("SELECT * FROM department", function (err, res) {
+    if (err) throw "listAllDepartments helper function error";
+
+    let deptNameArray = [];
+    for (let i = 0; i < res.length; i++) {
+      deptNameArray.push(res[i].name);
+    }
+
+    let deptIDArray = [];
+    for (let i = 0; i < res.length; i++) {
+      deptIDArray.push(res[i].id);
+    }
+
+    return inquirer
+      .prompt([
+        {
+          type: "value",
+          message: "Enter the role title name:",
+          name: "role",
+        },
+        {
+          type: "value",
+          message: "Enter the salary for this role:",
+          name: "salary",
+        },
+        {
+          type: "list",
+          message: "Select the department:",
+          name: "department",
+          choices: deptNameArray,
+        },
+      ])
+      .then(function (data) {
+        let departmentId;
+        for (let i = 0; i < res.length; i++) {
+          if (res[i].name == data.department) {
+            departmentId = res[i].id;
+          }
+        }
+        db.query(
+          "INSERT INTO role SET ?",
+          {
+            title: data.role,
+            salary: data.salary,
+            department_id: departmentId,
+          },
+          function (err, res) {
+            if (err) throw "addRole function error";
+            console.log(res);
+            newAction();
+          }
+        );
+      });
+  });
 };
 
 // ADD ROLE EMPLOYEE: READY!
@@ -214,8 +240,6 @@ const viewAllDepartmentsQuery = () => {
       newAction();
     }
   );
-  // const allDeptsList = parse.viewAllDepartments();
-  // console.table(allDeptsList);
 };
 
 // VIEW ALL ROLES: READY! TESTED!
@@ -228,20 +252,10 @@ const viewAllRolesQuery = () => {
       newAction();
     }
   );
-  // const allRolesList = viewAllRoles();
-  // console.table(allRolesList);
 };
 
 // VIEW ALL EMPLOYEES: READY! TESTED!
 const viewAllEmployeesQuery = () => {
-  // db.query(
-  //   "SELECT employee.id AS ID, employee.first_name AS First, employee.last_name AS Last, AS ManagerID, role.title AS Title,  department.name AS Dept, role.salary AS Salary FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id",
-  //   function (err, res) {
-  //     if (err) throw "viewAllEmployees helper function error";
-  //     console.table(res);
-  //     newAction();
-  //   }
-  // );
   db.query(
     "SELECT first_employee.first_name, first_employee.last_name, second_employee.first_name AS manager_first_name, second_employee.last_name AS manager_last_name" +
       " FROM employee as first_employee" +
@@ -254,14 +268,9 @@ const viewAllEmployeesQuery = () => {
       newAction();
     }
   );
-
-  // const allEmployeesList = viewAllEmployees();
-  // console.table(allEmployeesList);
 };
 
 const exitApplication = () => db.end();
-
-// module.exports = { newAction };
 
 // INCLUDE THE FOLLOWING OPERATIONS
 // Prompt, what would you like to do: PROMPT READY!
