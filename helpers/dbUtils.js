@@ -1,16 +1,17 @@
 const mysql = require("mysql2");
 const consoleTable = require("console.table");
 const { newAction } = require("../server");
+const res = require("express/lib/response");
 
-const db = mysql.createConnection(
-  {
-    host: "localhost",
-    user: "root",
-    password: "XC04stareld57*",
-    database: "employees_db",
-  },
-  console.log(`Connected to the employees_db database from the dbUtils file.`)
-);
+// const db = mysql.createConnection(
+//   {
+//     host: "localhost",
+//     user: "root",
+//     password: "XC04stareld57*",
+//     database: "employees_db",
+//   },
+//   console.log(`Connected to the employees_db database from the dbUtils file.`)
+// );
 
 // ************
 // VIEW ALL OF SOMETHING HELPER FUNCTIONS
@@ -18,16 +19,20 @@ const db = mysql.createConnection(
 
 // UTIL HELPER FUNCTION: READY!
 const viewAllDepartments = () => {
-  db.query("SELECT department.name FROM department", function (err, res) {
-    if (err) throw "viewAllDepartments helper function error";
-    console.table(res);
-  });
+  db.query(
+    "SELECT department.name AS Department FROM department",
+    function (err, res) {
+      if (err) throw "viewAllDepartments helper function error";
+      // console.table(res);
+      return res;
+    }
+  );
 };
 
 // UTIL HELPER FUNCTION: READY!
 const viewAllRoles = () => {
   db.query(
-    "SELECT role.title FROM role LEFT JOIN department ON role.department_id = department.id",
+    "SELECT role.title AS Role, role.salary AS Salary, department.name AS Dept FROM role LEFT JOIN department ON role.department_id = department.id",
     function (err, res) {
       if (err) throw "viewAllRoles helper function error";
       console.table(res);

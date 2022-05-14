@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-// const mysql = require("mysql2");
+const mysql = require("mysql2");
 
 const {
   viewAllDepartments,
@@ -14,17 +14,17 @@ const {
   listAllEmployees,
 } = require("./helpers/dbUtils");
 
-// const consoleTable = require("console.table");
+const consoleTable = require("console.table");
 
-// const db = mysql.createConnection(
-//   {
-//     host: "localhost",
-//     user: "root",
-//     password: "XC04stareld57*",
-//     database: "employees_db",
-//   },
-//   console.log(`Connected to the employees_db database from the server file.`)
-// );
+const db = mysql.createConnection(
+  {
+    host: "localhost",
+    user: "root",
+    password: "XC04stareld57*",
+    database: "employees_db",
+  },
+  console.log(`Connected to the employees_db database from the server file.`)
+);
 
 // ************
 // PROMPTS HERE
@@ -56,6 +56,8 @@ const newAction = () => {
       case "Update an employee role":
         updateEmployeeRolePrompt();
         break;
+      case "Exit application":
+        exitApplication();
       default:
         console.log("sorry, there was an error, no valid choice selected.");
     }
@@ -77,6 +79,7 @@ const whatAction = () => {
         "Add role",
         "Add employee",
         "Update an employee role",
+        "Exit application,",
       ],
     },
   ]);
@@ -192,26 +195,50 @@ const updateEmployeeRolePrompt = () => {
 // // VIEW ALL DEPARTMENTS: READY!
 // // UTIL HELPER FUNCTION: READY!
 const viewAllDepartmentsQuery = () => {
-  const allDeptsList = viewAllDepartments();
-  console.table(allDeptsList);
-  // newAction();
+  db.query(
+    "SELECT department.name AS Department FROM department",
+    function (err, res) {
+      if (err) throw "viewAllDepartments helper function error";
+      console.table(res);
+      newAction();
+    }
+  );
+  // const allDeptsList = parse.viewAllDepartments();
+  // console.table(allDeptsList);
 };
 
 // VIEW ALL ROLES: READY!
 // UTIL HELPER FUNCTION: READY!
 const viewAllRolesQuery = () => {
-  const allRolesList = viewAllRoles();
-  console.table(allRolesList);
-  // newAction();
+  db.query(
+    "SELECT role.title AS Role, role.salary AS Salary, department.name AS Dept FROM role LEFT JOIN department ON role.department_id = department.id",
+    function (err, res) {
+      if (err) throw "viewAllRoles helper function error";
+      console.table(res);
+      newAction();
+    }
+  );
+  // const allRolesList = viewAllRoles();
+  // console.table(allRolesList);
 };
 
 // VIEW ALL EMPLOYEES: READY!
 // UTIL HELPER FUNCTION: READY!
 const viewAllEmployeesQuery = () => {
-  const allEmployeesList = viewAllEmployees();
-  console.table(allEmployeesList);
-  // newAction();
+  db.query(
+    "SELECT employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id FROM employee GROUP BY department_id",
+    function (err, res) {
+      if (err) throw "viewAllEmployees helper function error";
+      console.table(res);
+      newAction();
+    }
+  );
+  // const allEmployeesList = viewAllEmployees();
+  // console.table(allEmployeesList);
 };
+
+//Exit application
+const exitApplication = () => db.end();
 
 // module.exports = { newAction };
 
