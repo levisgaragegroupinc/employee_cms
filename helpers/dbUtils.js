@@ -68,20 +68,6 @@ const addDepartment = (data) => {
   );
 };
 
-// ALTERNATIVE WAY?
-// const addDepartment = (data) => {
-//   db.query("INSERT INTO department (name) VALUES (?)", data.name, (err, res) => {
-//     if (err) {
-//       res.status(400).json({ error: err });
-//       return;
-//     }
-//     res.json({
-//       message: "Success",
-//       data: data.name,
-//     });
-//   });
-// };
-
 // UTIL ADD ROLE HELPER FUNCTION: READY!
 const addRole = (data) => {
   console.log(data);

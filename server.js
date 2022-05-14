@@ -1,20 +1,19 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
-
-const {
-  viewAllDepartments,
-  viewAllRoles,
-  viewAllEmployees,
-  addDepartment,
-  addRole,
-  addEmployee,
-  updateEmployeeRole,
-  listAllDepartments,
-  listAllRoles,
-  listAllEmployees,
-} = require("./helpers/dbUtils");
-
 const consoleTable = require("console.table");
+
+// const {
+//   viewAllDepartments,
+//   viewAllRoles,
+//   viewAllEmployees,
+//   addDepartment,
+//   addRole,
+//   addEmployee,
+//   updateEmployeeRole,
+//   listAllDepartments,
+//   listAllRoles,
+//   listAllEmployees,
+// } = require("./helpers/dbUtils");
 
 const db = mysql.createConnection(
   {
@@ -34,7 +33,7 @@ db.connect(function () {
 // PROMPTS HERE
 // ************
 
-// WHAT DID THE USER CHOOSE TO DO? READY!
+// WHAT DID THE USER CHOOSE TO DO? READY! TESTED!
 const newAction = () => {
   whatAction().then(function (choice) {
     console.log(choice.choice);
@@ -70,7 +69,7 @@ const newAction = () => {
   });
 };
 
-// WHAT DO YOU WANT TO DO PROMPT: READY!
+// WHAT DO YOU WANT TO DO PROMPT: READY! TESTED!
 const whatAction = () => {
   return inquirer.prompt([
     {
@@ -91,10 +90,7 @@ const whatAction = () => {
   ]);
 };
 
-// newAction();
-
-// ADD DEPARTMENT PROMPT: READY!
-// UTIL HELPER FUNCTION: READY!
+// ADD DEPARTMENT PROMPT: READY! TESTED!
 const addDepartmentPrompt = () => {
   return inquirer
     .prompt([
@@ -120,8 +116,8 @@ const addDepartmentPrompt = () => {
     });
 };
 
-// // ADD ROLE PROMPT: READY!
-// // UTIL HELPER FUNCTION: READY!
+// ADD ROLE PROMPT: READY!
+// UTIL HELPER FUNCTION: READY!
 const addRolePrompt = () => {
   const deptList = listAllDepartments();
   return inquirer
@@ -149,8 +145,8 @@ const addRolePrompt = () => {
     });
 };
 
-// // ADD ROLE EMPLOYEE: READY!
-// // UTIL HELPER FUNCTION: READY!
+// ADD ROLE EMPLOYEE: READY!
+// UTIL HELPER FUNCTION: READY!
 const addEmployeePrompt = () => {
   const roleList = listAllRoles();
   return inquirer
@@ -178,8 +174,8 @@ const addEmployeePrompt = () => {
     });
 };
 
-// // UPDATE EMPLOYEE ROLE: READY!
-// // UTIL HELPER FUNCTION: READY!
+// UPDATE EMPLOYEE ROLE: READY!
+// UTIL HELPER FUNCTION: READY!
 const updateEmployeeRolePrompt = () => {
   const employeeList = listAllEmployees();
   const roleList = listAllRoles();
@@ -204,12 +200,11 @@ const updateEmployeeRolePrompt = () => {
     });
 };
 
-// // ************
-// // QUERIES HERE
-// // ************
+// ************
+// QUERIES HERE
+// ************
 
-// // VIEW ALL DEPARTMENTS: READY!
-// // UTIL HELPER FUNCTION: READY!
+// VIEW ALL DEPARTMENTS: READY! TESTED!
 const viewAllDepartmentsQuery = () => {
   db.query(
     "SELECT department.name AS Department FROM department",
@@ -223,8 +218,7 @@ const viewAllDepartmentsQuery = () => {
   // console.table(allDeptsList);
 };
 
-// VIEW ALL ROLES: READY!
-// UTIL HELPER FUNCTION: READY!
+// VIEW ALL ROLES: READY! TESTED!
 const viewAllRolesQuery = () => {
   db.query(
     "SELECT role.title AS Role, role.salary AS Salary, department.name AS Dept FROM role LEFT JOIN department ON role.department_id = department.id",
@@ -238,8 +232,7 @@ const viewAllRolesQuery = () => {
   // console.table(allRolesList);
 };
 
-// VIEW ALL EMPLOYEES: READY!
-// UTIL HELPER FUNCTION: READY!
+// VIEW ALL EMPLOYEES: READY! TESTED!
 const viewAllEmployeesQuery = () => {
   // db.query(
   //   "SELECT employee.id AS ID, employee.first_name AS First, employee.last_name AS Last, AS ManagerID, role.title AS Title,  department.name AS Dept, role.salary AS Salary FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id",
@@ -289,55 +282,3 @@ const exitApplication = () => db.end();
 // Delete department (BONUS)
 // Delete role (BONUS)
 // Delete employee (BONUS)
-
-// ************
-// EXAMPLES
-// ************
-
-// Example calls
-// app.get("/db", (req, res) => {
-//   db.query(`SELECT FROM movies_names WHERE id = ?`, 1, (err, result) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     console.log(result);
-//   });
-// });
-
-// SUM the, plus multiple stats on
-// db.query(
-//   "SELECT SUM(quantity) AS total_in_section, MAX(quantity) AS max_quantity, MIN(quantity) AS min_quantity, AVG(quantity) AS avg_quantity FROM favorite_books GROUP BY section",
-//   function (err, results) {
-//     console.log(results);
-//   }
-// );
-
-// // Select all and show how many are in stock true / false.
-// db.query(
-//   "SELECT COUNT(id) AS total_count FROM favorite_books GROUP BY in_stock",
-//   function (err, results) {
-//     console.log(results);
-//   }
-// );
-
-// // Query database
-// db.query("SELECT * FROM course_names", function (err, results) {
-//   console.log(results);
-// });
-
-// // Default response for any other request (Not Found)
-// app.use((req, res) => {
-//   res.status(404).end();
-// });
-
-// // Hardcoded query: DELETE FROM course_names WHERE id = 3;
-// db.query(`DELETE FROM course_names WHERE id = ?`, 3, (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(result);
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
