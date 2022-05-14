@@ -1,6 +1,6 @@
 const mysql = require("mysql2");
 const consoleTable = require("console.table");
-// const { newAction } = require("../server");
+const { newAction } = require("../server");
 
 const db = mysql.createConnection(
   {

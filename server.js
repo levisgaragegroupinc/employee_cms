@@ -32,8 +32,9 @@ const {
 
 // WHAT DID THE USER CHOOSE TO DO? READY!
 const newAction = () => {
-  whatAction().then(function (user) {
-    switch (user.choice) {
+  whatAction().then(function (choice) {
+    console.log(choice.choice);
+    switch (choice.choice) {
       case "View all departments":
         viewAllDepartmentsQuery();
         break;
@@ -79,9 +80,6 @@ const whatAction = () => {
       ],
     },
   ]);
-  // .then(function (res) {
-  //   console.log(res);
-  // });
 };
 
 newAction();
