@@ -218,7 +218,7 @@ const viewAllEmployeesQuery = () => {
 };
 
 // START PROMPT
-whatAction();
+newAction();
 
 // INCLUDE THE FOLLOWING OPERATIONS
 // Prompt, what would you like to do: PROMPT READY!
