@@ -26,6 +26,10 @@ const db = mysql.createConnection(
   console.log(`Connected to the employees_db database from the server file.`)
 );
 
+db.connect(function () {
+  newAction();
+});
+
 // ************
 // PROMPTS HERE
 // ************
@@ -58,6 +62,8 @@ const newAction = () => {
         break;
       case "Exit application":
         exitApplication();
+        console.log("Exiting the application");
+        return;
       default:
         console.log("sorry, there was an error, no valid choice selected.");
     }
@@ -79,13 +85,13 @@ const whatAction = () => {
         "Add role",
         "Add employee",
         "Update an employee role",
-        "Exit application,",
+        "Exit application",
       ],
     },
   ]);
 };
 
-newAction();
+// newAction();
 
 // ADD DEPARTMENT PROMPT: READY!
 // UTIL HELPER FUNCTION: READY!
@@ -99,7 +105,17 @@ const addDepartmentPrompt = () => {
       },
     ])
     .then(function (data) {
-      addDepartment(data);
+      db.query(
+        "INSERT INTO department (name) VALUES (?)",
+        data.name,
+        function (err, res) {
+          if (err) throw "addDepartment helper function error";
+          console.log(res);
+          newAction();
+        }
+      );
+
+      // addDepartment(data);
       // newAction();
     });
 };
@@ -225,26 +241,34 @@ const viewAllRolesQuery = () => {
 // VIEW ALL EMPLOYEES: READY!
 // UTIL HELPER FUNCTION: READY!
 const viewAllEmployeesQuery = () => {
+  // db.query(
+  //   "SELECT employee.id AS ID, employee.first_name AS First, employee.last_name AS Last, AS ManagerID, role.title AS Title,  department.name AS Dept, role.salary AS Salary FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id",
+  //   function (err, res) {
+  //     if (err) throw "viewAllEmployees helper function error";
+  //     console.table(res);
+  //     newAction();
+  //   }
+  // );
   db.query(
-    "SELECT employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id FROM employee GROUP BY department_id",
+    "SELECT first_employee.first_name, first_employee.last_name, second_employee.first_name AS manager_first_name, second_employee.last_name AS manager_last_name" +
+      " FROM employee as first_employee" +
+      " LEFT JOIN employee as second_employee" +
+      " ON first_employee.manager_id = second_employee.id" +
+      " WHERE first_employee.manager_id = second_employee.id OR first_employee.manager_id IS null;",
     function (err, res) {
       if (err) throw "viewAllEmployees helper function error";
       console.table(res);
       newAction();
     }
   );
+
   // const allEmployeesList = viewAllEmployees();
   // console.table(allEmployeesList);
 };
 
-//Exit application
 const exitApplication = () => db.end();
 
 // module.exports = { newAction };
-
-// START PROMPT
-// newAction();
-// whatAction();
 
 // INCLUDE THE FOLLOWING OPERATIONS
 // Prompt, what would you like to do: PROMPT READY!

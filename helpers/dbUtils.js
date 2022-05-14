@@ -43,7 +43,7 @@ const viewAllRoles = () => {
 // UTIL HELPER FUNCTION: READY!
 const viewAllEmployees = () => {
   db.query(
-    "SELECT employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id FROM employee GROUP BY department_id",
+    "SELECT employee.id AS ID, employee.first_name AS FIRST, employee.last_name AS LAST, role.title AS Role, department.name AS Dept, role.salary AS Salary, employee.manager_id FROM employee GROUP BY department_id",
     function (err, res) {
       if (err) throw "viewAllEmployees helper function error";
       console.table(res);
