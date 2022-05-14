@@ -1,60 +1,28 @@
-// const express = require("express");
 const mysql = require("mysql2");
 const consoleTable = require("console.table");
-const connection = require("./connection");
+// const { newAction } = require("../server");
 
-// const PORT = process.env.PORT || 3001;
-// const app = express();
-
-// app.use(express.urlencoded({ extended: false }));
-// app.use(express.json());
-
-class MYDB {
-  // constructor(connection) {
-  //   this.connection = connection;
-  // }
-  viewAllDepartments() {
-    const db = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "XC04stareld57*",
-      database: "employees_db",
-    });
-    db.connect(function (err) {
-      if (err) throw err;
-    });
-    return "Here is our string";
-    // this.db.query(
-    //   "SELECT department.name FROM department",
-    //   function (err, res) {
-    //     if (err) throw "viewAllDepartments helper function error";
-    //     console.table(res);
-    //   }
-    // );
-  }
-}
-
-// const db = mysql.createConnection(
-//   {
-//     host: "localhost",
-//     user: "root",
-//     password: "XC04stareld57*",
-//     database: "employees_db",
-//   },
-//   console.log(`Connected to the employees_db database from the dbUtils file.`)
-// );
+const db = mysql.createConnection(
+  {
+    host: "localhost",
+    user: "root",
+    password: "XC04stareld57*",
+    database: "employees_db",
+  },
+  console.log(`Connected to the employees_db database from the dbUtils file.`)
+);
 
 // ************
 // VIEW ALL OF SOMETHING HELPER FUNCTIONS
 // ************
 
 // UTIL HELPER FUNCTION: READY!
-// const viewAllDepartments = () => {
-//   db.query("SELECT department.name FROM department", function (err, res) {
-//     if (err) throw "viewAllDepartments helper function error";
-//     console.table(res);
-//   });
-// };
+const viewAllDepartments = () => {
+  db.query("SELECT department.name FROM department", function (err, res) {
+    if (err) throw "viewAllDepartments helper function error";
+    console.table(res);
+  });
+};
 
 // UTIL HELPER FUNCTION: READY!
 const viewAllRoles = () => {
@@ -198,20 +166,18 @@ const listAllEmployees = () => {
   );
 };
 
-// module.exports = {
-//   viewAllDepartments,
-//   viewAllRoles,
-//   viewAllEmployees,
-//   addDepartment,
-//   addRole,
-//   addEmployee,
-//   updateEmployeeRole,
-//   listAllDepartments,
-//   listAllRoles,
-//   listAllEmployees,
-// };
-
-module.exports = new MYDB();
+module.exports = {
+  viewAllDepartments,
+  viewAllRoles,
+  viewAllEmployees,
+  addDepartment,
+  addRole,
+  addEmployee,
+  updateEmployeeRole,
+  listAllDepartments,
+  listAllRoles,
+  listAllEmployees,
+};
 
 // INCLUDE THE FOLLOWING OPERATIONS (plus BONUS)
 // View all departments
