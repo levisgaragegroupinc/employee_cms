@@ -1,4 +1,4 @@
-const express = require("express");
+// const express = require("express");
 const path = require("path");
 const {
   viewAllDepartments,
@@ -18,10 +18,10 @@ const consoleTable = require("console.table");
 const inquirer = require("inquirer");
 
 const PORT = process.env.PORT || 3001;
-const app = express();
+// const app = express();
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
 
 const db = mysql.createConnection(
   {
@@ -40,7 +40,7 @@ const db = mysql.createConnection(
 // WHAT DID THE USER CHOOSE TO DO? READY!
 const newAction = () => {
   whatAction().then(function (action) {
-    switch (action) {
+    switch (action.option) {
       case "View all departments":
         viewAllDepartmentsQuery();
         break;
@@ -74,7 +74,7 @@ const whatAction = () => {
     {
       type: "list",
       message: "What action would you like to take?",
-      name: "action",
+      name: "option",
       choices: [
         "View all departments",
         "View all roles",
@@ -101,7 +101,7 @@ const addDepartmentPrompt = () => {
     ])
     .then(function (data) {
       addDepartment(data);
-      whatAction();
+      // newAction();
     });
 };
 
@@ -130,7 +130,7 @@ const addRolePrompt = () => {
     ])
     .then(function (data) {
       addRole(data);
-      whatAction();
+      // newAction();
     });
 };
 
@@ -159,7 +159,7 @@ const addEmployeePrompt = () => {
     ])
     .then(function (data) {
       addEmployee(data);
-      whatAction();
+      // newAction();
     });
 };
 
@@ -185,7 +185,7 @@ const updateEmployeeRolePrompt = () => {
     ])
     .then(function (data) {
       updateEmployee(data);
-      whatAction();
+      // newAction();
     });
 };
 
@@ -198,7 +198,7 @@ const updateEmployeeRolePrompt = () => {
 const viewAllDepartmentsQuery = () => {
   const allDeptsList = viewAllDepartments();
   console.table(allDeptsList);
-  whatAction();
+  // newAction();
 };
 
 // VIEW ALL ROLES: READY!
@@ -206,7 +206,7 @@ const viewAllDepartmentsQuery = () => {
 const viewAllRolesQuery = () => {
   const allRolesList = viewAllRoles();
   console.table(allRolesList);
-  whatAction();
+  // newAction();
 };
 
 // VIEW ALL EMPLOYEES: READY!
@@ -214,7 +214,7 @@ const viewAllRolesQuery = () => {
 const viewAllEmployeesQuery = () => {
   const allEmployeesList = viewAllEmployees();
   console.table(allEmployeesList);
-  whatAction();
+  // newAction();
 };
 
 // START PROMPT
