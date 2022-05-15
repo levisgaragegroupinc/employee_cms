@@ -2,7 +2,7 @@
 
 # Description
 
-The purpose of this project was to develop a command line interface to manage information related to employees stored in a database. The application allows the user to view, insert, edit and remove information from the databese through the command line interface.
+The purpose of this project was to develop a command line interface to manage information related to employees stored in a database. The application allows the user to view, insert, edit and update information in the databese from the command line interface.
 
 # Installation
 
@@ -18,7 +18,7 @@ Install MySQL2 package: [MySQL2](https://www.npmjs.com/package/mysql2).
 
 # Appearance
 
-![Command Line Screen]()
+![Command Line Screen](./assets/images/employee1.png)
 
 # Usage
 
@@ -46,7 +46,7 @@ Employee
 
 ## Link to video demonstration
 
-Video demo: [GDrive Link]()
+Video demo: [GDrive Link](https://drive.google.com/file/d/1TSw8JEd1tat7lPRtbVF2nIy-_Gh1gAnm/view?usp=sharing)
 
 ## Credits
 
