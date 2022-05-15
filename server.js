@@ -158,23 +158,12 @@ const addRolePrompt = () => {
   });
 };
 
-const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-// ADD EMPLOYEE: IN-PROGRESS!
+// ADD EMPLOYEE: READY! TESTED!
 const addEmployeePrompt = async () => {
-  db.query("SELECT * FROM role", function (err, res) {
+  db.query("SELECT * FROM role", (err, res) => {
     if (err) throw "AddEmployee function error";
 
-    let rolesNameArray = [];
-    for (let i = 0; i < res.length; i++) {
-      rolesNameArray.push(res[i].title);
-    }
-
-    let rolesIDArray = [];
-    for (let i = 0; i < res.length; i++) {
-      rolesIDArray.push(res[i].id);
-    }
-
-    return inquirer
+    inquirer
       .prompt([
         {
           type: "value",
@@ -190,41 +179,49 @@ const addEmployeePrompt = async () => {
           type: "list",
           message: "Select employee role:",
           name: "role",
-          choices: rolesNameArray,
-        },
-        {
-          type: "list",
-          message: "Select employee manager:",
-          name: "manager",
-          choices: testArray,
+          choices: res.map((res) => res.id + " " + res.title),
         },
       ])
-      .then(function (data) {
-        let roleId;
-        for (let i = 0; i < res.length; i++) {
-          if (res[i].title == data.role) {
-            roleId = res[i].id;
-          }
-        }
-        db.query(
-          "INSERT INTO employee SET ?",
-          {
-            first_name: data.firstname,
-            last_name: data.lastname,
-            role_id: roleId,
-            manager_id: data.manager,
-          },
-          function (err, res) {
-            if (err) throw "addEmployee function error";
-            console.log(res);
-            newAction();
-          }
-        );
+      .then((newEmployeeData) => {
+        let firstname = newEmployeeData.firstname.split(" ")[0];
+        let lastname = newEmployeeData.role.split(" ")[1];
+        let roleId = newEmployeeData.role.split(" ")[2];
+
+        db.query("SELECT * FROM employee", (err, res) => {
+          if (err) throw "getListOfAllEmployees function error";
+          inquirer
+            .prompt([
+              {
+                type: "list",
+                message: "Select employee manager:",
+                name: "manager",
+                choices: res.map(
+                  (res) => res.id + " " + res.first_name + " " + res.last_name
+                ),
+              },
+            ])
+            .then((managerData) => {
+              let employeeManagerId = managerData.manager.split(" ")[0];
+              db.query(
+                "INSERT INTO employee SET ?",
+                {
+                  first_name: firstname,
+                  last_name: lastname,
+                  rold_id: roleId,
+                  manager_id: employeeManagerId,
+                },
+                function (err, res) {
+                  if (err) throw "insertNewEmployee function error";
+                }
+              );
+              newAction();
+            });
+        });
       });
   });
 };
 
-// UPDATE EMPLOYEE ROLE: IN-PROGRESS!
+// UPDATE EMPLOYEE ROLE: READY! TESTED!
 const updateEmployeeRolePrompt = () => {
   db.query("SELECT * FROM employee", (err, res) => {
     if (err) throw "updateEmployeeRolefunction error";
@@ -333,15 +330,3 @@ const exitApplication = () => db.end();
 // Delete department (BONUS)
 // Delete role (BONUS)
 // Delete employee (BONUS)
-
-// newManagerData = getEmployeeData();
-
-// let employeeIDArray = [];
-// for (let i = 0; i < newManagerData.length; i++) {
-//   employeeIDArray.push(newManagerData[i].id);
-// }
-
-// let employeeNameArray = [];
-// for (let i = 0; i < newManagerData.length; i++) {
-//   employeeNameArray.push(newManagerData[i].name);
-// }
