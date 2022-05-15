@@ -163,7 +163,7 @@ const addEmployeePrompt = async () => {
   db.query("SELECT * FROM role", (err, res) => {
     if (err) throw "AddEmployee function error";
 
-    inquirer
+    return inquirer
       .prompt([
         {
           type: "value",
@@ -183,13 +183,13 @@ const addEmployeePrompt = async () => {
         },
       ])
       .then((newEmployeeData) => {
-        let firstname = newEmployeeData.firstname.split(" ")[0];
-        let lastname = newEmployeeData.role.split(" ")[1];
-        let roleId = newEmployeeData.role.split(" ")[2];
-
+        console.log(newEmployeeData);
+        let firstname = newEmployeeData.firstname;
+        let lastname = newEmployeeData.lastname;
+        let roleId = newEmployeeData.role.split(" ")[0];
         db.query("SELECT * FROM employee", (err, res) => {
           if (err) throw "getListOfAllEmployees function error";
-          inquirer
+          return inquirer
             .prompt([
               {
                 type: "list",
@@ -202,19 +202,19 @@ const addEmployeePrompt = async () => {
             ])
             .then((managerData) => {
               let employeeManagerId = managerData.manager.split(" ")[0];
+              console.log(firstname);
+              console.log(lastname);
+              console.log(roleId);
+              console.log(employeeManagerId);
               db.query(
-                "INSERT INTO employee SET ?",
-                {
-                  first_name: firstname,
-                  last_name: lastname,
-                  rold_id: roleId,
-                  manager_id: employeeManagerId,
-                },
+                "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
+                [firstname, lastname, roleId, employeeManagerId],
                 function (err, res) {
                   if (err) throw "insertNewEmployee function error";
+                  console.log(res);
+                  newAction();
                 }
               );
-              newAction();
             });
         });
       });
@@ -225,7 +225,7 @@ const addEmployeePrompt = async () => {
 const updateEmployeeRolePrompt = () => {
   db.query("SELECT * FROM employee", (err, res) => {
     if (err) throw "updateEmployeeRolefunction error";
-    inquirer
+    return inquirer
       .prompt([
         {
           type: "list",
@@ -240,7 +240,7 @@ const updateEmployeeRolePrompt = () => {
         let employeeID = employeeData.employee_id_name.split(" ")[0];
         db.query("SELECT * FROM role", (err, res) => {
           if (err) throw err;
-          inquirer
+          return inquirer
             .prompt([
               {
                 type: "list",
