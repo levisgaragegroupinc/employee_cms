@@ -158,12 +158,11 @@ const addRolePrompt = () => {
   });
 };
 
-// ADD EMPLOYEE: READY!
-const addEmployeePrompt = () => {
+const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// ADD EMPLOYEE: IN-PROGRESS!
+const addEmployeePrompt = async () => {
   db.query("SELECT * FROM role", function (err, res) {
     if (err) throw "AddEmployee function error";
-    let employeeNameArray = getEmployeeNames();
-    console.log(employeeNameArray);
 
     let rolesNameArray = [];
     for (let i = 0; i < res.length; i++) {
@@ -197,7 +196,7 @@ const addEmployeePrompt = () => {
           type: "list",
           message: "Select employee manager:",
           name: "manager",
-          choices: employeeNameArray,
+          choices: testArray,
         },
       ])
       .then(function (data) {
@@ -207,19 +206,13 @@ const addEmployeePrompt = () => {
             roleId = res[i].id;
           }
         }
-        let managerId;
-        for (let i = 0; i < employeeIDArray.length; i++) {
-          if (employeeNameArray[i] == data.manager) {
-            managerId = employeeIDArray[i];
-          }
-        }
         db.query(
           "INSERT INTO employee SET ?",
           {
             first_name: data.firstname,
             last_name: data.lastname,
             role_id: roleId,
-            manager_id: managerId,
+            manager_id: data.manager,
           },
           function (err, res) {
             if (err) throw "addEmployee function error";
@@ -231,81 +224,48 @@ const addEmployeePrompt = () => {
   });
 };
 
-// Get department IDs
-// const getDepartmentIDs = () => {
-//   db.query("SELECT * FROM department", function (err, res) {
-//     if (err) throw "getAllDepartmentIDs function error";
-//     let deptIDArray = [];
-//     for (let i = 0; i < res.length; i++) {
-//       deptIDArray.push(res[i].id);
-//     }
-//     return deptIDArray;
-//   });
-// };
-
-// // Get department Names
-// const getDepartmentNames = () => {
-//   db.query("SELECT * FROM department", function (err, res) {
-//     if (err) throw "getAllDepartmentNames function error";
-//     let deptNameArray = [];
-//     for (let i = 0; i < res.length; i++) {
-//       deptNameArray.push(res[i].name);
-//     }
-//     return deptNameArray;
-//   });
-// };
-
-// Get employee Names
-// const getEmployeeNames = () => {
-//   db.query("SELECT * FROM employee", function (err, res) {
-//     if (err) throw "getEmployeeNames function error";
-//     let employeeNameArray = [];
-//     for (let i = 0; i < res.length; i++) {
-//       employeeNameArray.push(res[i].name);
-//     }
-//     return employeeNameArray;
-//   });
-// };
-
-// const getEmployeeIDs = () => {
-//   db.query("SELECT * FROM employee", function (err, res) {
-//     if (err) throw "getEmployeeIDs function error";
-//     let employeeIDArray = [];
-//     for (let i = 0; i < res.length; i++) {
-//       employeeIDArray.push(res[i].name);
-//     }
-//     console.log(employeeIDarray);
-//     return employeeIDarray;
-//   });
-// };
-
-// getEmployeeIDs();
-// getEmployeeNames();
-
-// UPDATE EMPLOYEE ROLE: READY!
-// UTIL HELPER FUNCTION: READY!
+// UPDATE EMPLOYEE ROLE: IN-PROGRESS!
 const updateEmployeeRolePrompt = () => {
-  // const employeeList = listAllEmployees();
-  // const roleList = listAllRoles();
-  return inquirer
-    .prompt([
-      {
-        type: "list",
-        message: "Select employee:",
-        name: "employee_id_name",
-        choices: employeeList,
-      },
-      {
-        type: "list",
-        message: "Select the employee role:",
-        name: "role",
-        choices: roleList,
-      },
-    ])
-    .then(function (data) {
-      updateEmployee(data);
-      // newAction();
-    });
+  db.query("SELECT * FROM employee", (err, res) => {
+    if (err) throw "updateEmployeeRolefunction error";
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          message: "Select employee:",
+          name: "employee_id_name",
+          choices: res.map(
+            (res) => res.id + " " + res.first_name + " " + res.last_name
+          ),
+        },
+      ])
+      .then((employeeData) => {
+        let employeeID = employeeData.employee_id_name.split(" ")[0];
+        db.query("SELECT * FROM role", (err, res) => {
+          if (err) throw err;
+          inquirer
+            .prompt([
+              {
+                type: "list",
+                message: "Select the employee's new role:",
+                name: "newrole",
+                choices: res.map((res) => res.id + " " + res.title),
+              },
+            ])
+            .then((newRoleData) => {
+              let roleId = newRoleData.newrole.split(" ")[0];
+              db.query(
+                "UPDATE employee SET role_id = ? WHERE id = ?",
+                [roleId, employeeID],
+                (err, res) => {
+                  if (err) throw "Input updated employee role failed!";
+                }
+              );
+              newAction();
+            });
+        });
+      });
+  });
 };
 
 // ************
@@ -373,3 +333,15 @@ const exitApplication = () => db.end();
 // Delete department (BONUS)
 // Delete role (BONUS)
 // Delete employee (BONUS)
+
+// newManagerData = getEmployeeData();
+
+// let employeeIDArray = [];
+// for (let i = 0; i < newManagerData.length; i++) {
+//   employeeIDArray.push(newManagerData[i].id);
+// }
+
+// let employeeNameArray = [];
+// for (let i = 0; i < newManagerData.length; i++) {
+//   employeeNameArray.push(newManagerData[i].name);
+// }
