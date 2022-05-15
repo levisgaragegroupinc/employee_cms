@@ -20,7 +20,7 @@ db.connect(function () {
 // PROMPTS HERE
 // ************
 
-// WHAT DID THE USER CHOOSE TO DO? READY! TESTED!
+// WHAT DID THE USER CHOOSE TO DO?
 const newAction = () => {
   whatAction().then(function (choice) {
     console.log(choice.choice);
@@ -56,7 +56,7 @@ const newAction = () => {
   });
 };
 
-// WHAT DO YOU WANT TO DO PROMPT: READY! TESTED!
+// WHAT DO YOU WANT TO DO PROMPT
 const whatAction = () => {
   return inquirer.prompt([
     {
@@ -77,7 +77,7 @@ const whatAction = () => {
   ]);
 };
 
-// ADD DEPARTMENT PROMPT: READY! TESTED!
+// ADD DEPARTMENT PROMPT
 const addDepartmentPrompt = () => {
   return inquirer
     .prompt([
@@ -100,7 +100,7 @@ const addDepartmentPrompt = () => {
     });
 };
 
-// ADD ROLE PROMPT: READY! TESTED!
+// ADD ROLE PROMPT:
 const addRolePrompt = () => {
   db.query("SELECT * FROM department", function (err, res) {
     if (err) throw "listAllDepartments function error";
@@ -158,7 +158,7 @@ const addRolePrompt = () => {
   });
 };
 
-// ADD EMPLOYEE: READY! TESTED!
+// ADD EMPLOYEE PROMPT
 const addEmployeePrompt = async () => {
   db.query("SELECT * FROM role", (err, res) => {
     if (err) throw "AddEmployee function error";
@@ -221,7 +221,7 @@ const addEmployeePrompt = async () => {
   });
 };
 
-// UPDATE EMPLOYEE ROLE: READY! TESTED!
+// UPDATE EMPLOYEE ROLE PROMPT
 const updateEmployeeRolePrompt = () => {
   db.query("SELECT * FROM employee", (err, res) => {
     if (err) throw "updateEmployeeRolefunction error";
@@ -269,7 +269,7 @@ const updateEmployeeRolePrompt = () => {
 // QUERIES HERE
 // ************
 
-// VIEW ALL DEPARTMENTS: READY! TESTED!
+// VIEW ALL DEPARTMENTS QUERY
 const viewAllDepartmentsQuery = () => {
   db.query(
     "SELECT department.name AS Department FROM department",
@@ -281,7 +281,7 @@ const viewAllDepartmentsQuery = () => {
   );
 };
 
-// VIEW ALL ROLES: READY! TESTED!
+// VIEW ALL ROLES QUERY
 const viewAllRolesQuery = () => {
   db.query(
     "SELECT role.title AS Role, role.salary AS Salary, department.name AS Dept FROM role LEFT JOIN department ON role.department_id = department.id",
@@ -293,7 +293,7 @@ const viewAllRolesQuery = () => {
   );
 };
 
-// VIEW ALL EMPLOYEES: READY! TESTED!
+// VIEW ALL EMPLOYEES QUERY
 const viewAllEmployeesQuery = () => {
   db.query(
     "SELECT first_employee.first_name, first_employee.last_name, second_employee.first_name AS manager_first_name, second_employee.last_name AS manager_last_name" +
@@ -310,23 +310,3 @@ const viewAllEmployeesQuery = () => {
 };
 
 const exitApplication = () => db.end();
-
-// INCLUDE THE FOLLOWING OPERATIONS
-// Prompt, what would you like to do: PROMPT READY!
-// What did the user choose to do: FUNCTION READY!
-// View all departments: FUNCTION READY!
-// View all roles: FUNCTION READY!
-// View all employees: FUNCTION READY!
-// Add department: PROMPT READY!
-// Add role: PROMPT READY!
-// Add employee: PROMPT READY!
-// Update an employee role: PROMPT READY!
-
-// (BONUS OPERATIONS)
-// Veiw employees by manager (BONUS)
-// View employees by department (BONUS)
-// View sum of salaries by department (BONUS)
-// Update employee managers (BONUS)
-// Delete department (BONUS)
-// Delete role (BONUS)
-// Delete employee (BONUS)
